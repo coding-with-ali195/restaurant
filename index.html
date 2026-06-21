@@ -1,0 +1,396 @@
+<! REAL FILE>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fast Food Restaurant</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    body {
+      background-image: url(https://th.bing.com/th/id/OIP.Afzgjym-WY3ZTGrOwsvVkgHaEK?w=262&h=180&c=7&r=0&o=7&pid=1.7&rm=3);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      background-attachment: fixed;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+.food-card {
+  position: relative; /* ensures child elements like .premium-tag are placed correctly */
+  overflow: hidden;   /* keeps everything inside the card clean */
+}
+
+.premium-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 35px;
+  height: 35px;
+  background: red;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999; /* make sure it's always on top */
+}
+
+.premium-tag i {
+  color: gold;
+  font-size: 18px;
+}
+
+
+.premium-tag i {
+  color: gold;
+  font-size: 18px;
+}
+
+    h1 {
+      font-weight: bolder;
+      font-size: 60px;
+      font-style: italic;
+      color:lightyellow;
+    }
+    nav {
+      background-color: darkred;
+      text-align: right;
+      position: none;
+      top: 0;
+      z-index: 1000;
+      padding:10px
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 26px;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+      border-radius: 5px;
+      padding:10px
+    }
+    nav a:hover {
+      background-color: black;
+      color: white;
+    }
+    section {
+      background-color: rgba(0, 0, 0, 0.85);
+      margin: 30px auto;
+      padding: 20px;
+      max-width: 1200px;
+      border-radius: 10px;
+      display: none;
+      color: white;
+    }
+    section.active {
+      display: block;
+    }
+    footer {
+      background-color: rgba(0, 0, 0, 0.9);
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+    form input,
+    form textarea {
+      display: block;
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      background-color: darkred;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #a30000;
+    }
+
+    /* --- Dark Food Card Styles --- */
+    .inventory-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .food-card {
+      background-color: #111;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.6);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .food-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 25px rgba(200,0,0,0.8);
+    }
+    .food-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .food-content {
+      padding: 1.2rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .food-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: gold;
+      margin-bottom: 0.5rem;
+    }
+    .food-details {
+      font-size: 0.95rem;
+      color: #ddd;
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+    .btn-details {
+      background-color: darkred;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.2rem;
+      border-radius: 6px;
+      font-weight: bold;
+      text-decoration: none;
+      text-align: center;
+      transition: background-color 0.3s ease;
+    }
+    .btn-details:hover {
+      background-color: #a30000;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 40px;
+      }
+      nav a {
+        display: block;
+        margin: 10px 0;
+      }
+    }
+/* Premium Food Cards */
+.food-card.premium {
+  border: 2px solid gold;
+  box-shadow: 0 8px 20px rgba(255, 215, 0, 0.6);
+}
+
+.food-card.premium .food-name {
+  color: gold;
+}
+
+.food-card.premium:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 12px 30px rgba(255, 223, 0, 0.9);
+}
+
+  </style>
+</head>
+<body>
+  <center><h1>Fast Food Restaurant</h1></center>
+  <br />
+
+  <!-- Navbar -->
+  <nav>
+    <a onclick="showSection('home')">Home</a>
+    <a onclick="showSection('menu')">Menu</a>
+    <a onclick="showSection('about')">About</a>
+    <a onclick="showSection('contact')">Contact</a>
+  </nav>
+
+  <!-- Home Section with Food Cards -->
+  <section id="home" class="active">
+    <center><h2 style="color: yellow;">Welcome to Fast Food Restaurant!</h2></center>
+    
+    <div class="inventory-grid">
+      <!-- 9 Food Cards -->
+ <!-- New Food Card: Mutton Chops -->
+      <article class="food-card premium">
+       <span class="premium-tag"><i class="fas fa-crown"></i></span>
+        <img class="food-image" src="https://www.awesomecuisine.com/wp-content/uploads/2010/01/Mint-Mutton-Chops.jpg" alt="Mutton Chops" />
+        <div class="food-content">
+          <h3 class="food-name">Spicy Mutton Chops</h3>
+          <p class="food-details">Delicious mutton chops marinated in special spices and grilled until smoky and tender.</p>
+          <a href="#" class="btn-details">Order Now</a>
+        </div>
+      </article>
+
+      <article class="food-card">
+        <img class="food-image" src="https://leitesculinaria.com/wp-content/uploads/2020/02/classic-cheeseburger-1200.jpg" alt="Cheeseburger" />
+        <div class="food-content">
+          <h3 class="food-name">Classic Cheeseburger</h3>
+          <p class="food-details">Juicy beef patty with melted cheddar cheese, crispy lettuce, tomato, onions, and our signature sauce.</p>
+          <a href="#" class="btn-details">Order Now</a>
+        </div>
+      </article>
+
+      <article class="food-card">
+        <img class="food-image" src="https://media.istockphoto.com/id/521403691/photo/hot-homemade-pepperoni-pizza.jpg?s=612x612&w=0&k=20&c=PaISuuHcJWTEVoDKNnxaHy7L2BTUkyYZ06hYgzXmTbo=" alt="Pizza" />
+        <div class="food-content">
+          <h3 class="food-name">Pepperoni Pizza</h3>
+          <p class="food-details">Stone-baked crust topped with tangy tomato sauce, mozzarella, and spicy pepperoni slices.</p>
+          <a href="#" class="btn-details">Order Now</a>
+        </div>
+      </article>
+
+      <article class="food-card">
+        <img class="food-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdHrsJoaxpJk6hw0ojSROwKheWQ4gOx1SaWQ&s" alt="Fried Chicken" />
+        <div class="food-content">
+          <h3 class="food-name">Crispy Fried Chicken</h3>
+          <p class="food-details">Golden-brown fried chicken with a crunchy coating and juicy, tender meat inside.</p>
+          <a href="#" class="btn-details">Order Now</a>
+        </div>
+      </article>
+
+      <article class="food-card">
+        <img class="food-image" src="https://img.freepik.com/premium-photo/tacos-mexican-food-cuisine-spicy-flavorful-tortilla-beef-chicken-barbacoa-guacamole-salsa-lime_955379-30608.jpg" alt="Tacos" />
+        <div class="food-content">
+          <h3 class="food-name">Mexican Tacos</h3>
+          <p class="food-details">Soft corn tortillas filled with spiced beef, fresh salsa, guacamole, and a squeeze of lime.</p>
+          <a href="#" class="btn-details">Order Now</a>
+        </div>
+      </article>
+
+      <article class="food-card">
+        <img class="food-image" src="https://images.deliveryhero.io/image/fd-pk/LH/r623-listing.jpg" alt="BBQ" />
+        <div class="food-content">
+          <h3 class="food-name">BBQ Platter</h3>
+          <p class="food-details">Delicious Turkish kebab,spicy and tender meat-with lemon and special meat sauce.</p>
+          <a href="#" class="btn-details">Order Now</a>
+        </div>
+      </article>
+
+      <article class="food-card">
+        <img class="food-image" src="https://www.simplotfoods.com/_next/image?url=https%3A%2F%2Fimages.ctfassets.net%2F0dkgxhks0leg%2F2oCfIKmMENMCPVqRfOSwBu%2Ff68d0be25a70d23b729a09aff72ab027%2FItalian_Turkey_Club_Sandwich_.jpg%3Ffm%3Dwebp&w=3840&q=75" alt="Sandwich" />
+        <div class="food-content">
+          <h3 class="food-name">Club Sandwich</h3>
+          <p class="food-details">Stacked with grilled chicken, crispy bacon, lettuce, tomato, and mayo on toasted bread-turkish famous club sandwich-with fries and special green sauce.</p>
+          <a href="#" class="btn-details">Order Now</a>
+        </div>
+      </article>
+
+      <article class="food-card">
+        <img class="food-image" src="https://i.ytimg.com/vi/I9Qt7cZgM7s/maxresdefault.jpg" alt="Donut" />
+        <div class="food-content">
+          <h3 class="food-name">Arabic Chicken Shawarma</h3>
+          <p class="food-details">Fluffy and tender chicken shawarma platter-with fries and some mix vegies.</p>
+          <a href="#" class="btn-details">Order Now</a>
+        </div>
+      </article>
+
+      <article class="food-card">
+        <img class="food-image" src="https://newsroom.subway.com/download/Subway+W1_Baja+Chipotle+Chicken_009.jpg" alt="Hot Dog" />
+        <div class="food-content">
+          <h3 class="food-name">Subway</h3>
+          <p class="food-details">Tender beef with melted cheese-famous subway of france with its original quality.</p>
+          <a href="#" class="btn-details">Order Now</a>
+        </div>
+      </article>
+
+      <article class="food-card">
+        <img class="food-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNFPB3KX2z4IeuqqK80zdknHSll5u78QnoKg&s alt="Salad" />
+        <div class="food-content">
+          <h3 class="food-name">Spicy Chicken Wings</h3>
+          <p class="food-details">Juicy-tender spicy chicken wings with lemon and green chilli.</p>
+          <a href="#" class="btn-details">Order Now</a>
+        </div>
+      </article>
+      <!-- New Food Card: Beef Steak -->
+      <article class="food-card">
+        <img class="food-image" src="https://delishglobe.com/wp-content/uploads/2025/06/Beef-Steaf.png" alt="Beef Steak" />
+        <div class="food-content">
+          <h3 class="food-name">Grilled Beef Steak</h3>
+          <p class="food-details">Juicy and tender beef steak grilled to perfection with garlic butter and herbs.</p>
+          <a href="#" class="btn-details">Order Now</a>
+        </div>
+      </article>
+
+      <!-- New Food Card: Sushi -->
+      <article class="food-card">
+        <img class="food-image" src="https://asianinspirations.com.au/wp-content/uploads/2021/03/How-to-make-your-own-sushi-rolls_00-Feat-Img.jpg" alt="Sushi" />
+        <div class="food-content">
+          <h3 class="food-name">Sushi</h3>
+          <p class="food-details">High-quality fish in sushi which contributes to a tender and melt-in-your-mouth texture.</p>
+          <a href="#" class="btn-details">Order Now</a>
+        </div>
+      </article>
+  </div>
+</section>
+
+
+  <!-- Menu Section (empty for now) -->
+  <section id="menu">
+    <h2>Our Menu</h2>
+    <p>Menu details coming soon!</p>
+  </section>
+
+  <!-- About Section -->
+  <section id="about">
+    <h2>About Us</h2>
+    <p>
+      Welcome to Fast Food Restaurant! We serve delicious, freshly made fast
+      food with quality ingredients at unbeatable prices. Whether you're
+      craving a juicy burger or crispy fries, we've got something for everyone.
+    </p>
+  </section>
+
+<!-- Contact Section -->
+<section id="contact">
+  <h2>Contact Us</h2>
+  <p><strong>For Home Delivery:</strong> +92 300 1234567</p>
+  <p><strong>Restaurant Address:</strong> DHA - Phase#2, Karachi - Pakistan. </p>
+  
+  <h3>Follow Us:</h3>
+  <p style="font-size: 1.3rem;">
+    <a href="https://twitter.com" target="_blank" style="color: #1DA1F2; margin-right: 20px;">
+      <i class="fab fa-twitter"></i> Twitter
+    </a>
+    <a href="https://instagram.com" target="_blank" style="color: #E1306C; margin-right: 20px;">
+      <i class="fab fa-instagram"></i> Instagram
+    </a>
+    <a href="https://facebook.com" target="_blank" style="color: #1877F2; margin-right: 20px;">
+      <i class="fab fa-facebook"></i> Facebook
+    </a>
+    <a href="https://linkedin.com" target="_blank" style="color: #0A66C2;">
+      <i class="fab fa-linkedin"></i> LinkedIn
+    </a>
+  </p>
+</section>
+
+
+  <footer>
+    <p>&copy; 2025 Fast Food Restaurant. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function showSection(sectionId) {
+      const sections = document.querySelectorAll("section");
+      sections.forEach((section) => {
+        if (section.id === sectionId) {
+          section.style.display = "block";
+          section.classList.add("active");
+        } else {
+          section.style.display = "none";
+          section.classList.remove("active");
+        }
+      });
+    }
+  </script>
+</body>
+</html>
